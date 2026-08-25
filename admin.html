@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yönetici Paneli</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- GİRİŞ EKRANI -->
+  <section id="loginScreen" class="login-screen">
+    <form id="loginForm" class="login-box">
+      <h1>Yönetici Girişi</h1>
+      <p class="login-hint">Firebase'de oluşturduğun yönetici hesabıyla giriş yap.</p>
+      <input type="email" id="loginEmail" placeholder="E-posta" autocomplete="username" required>
+      <input type="password" id="loginPassword" placeholder="Şifre" autocomplete="current-password" required>
+      <button type="submit" class="btn btn-primary">Giriş Yap</button>
+      <p id="loginError" class="login-error" hidden></p>
+      <a href="index.html" class="back-link">← Siteye dön</a>
+    </form>
+  </section>
+
+  <!-- YÖNETİM PANELİ -->
+  <div id="adminApp" class="admin-app" hidden>
+    <header class="admin-header">
+      <h1>Yönetici Paneli</h1>
+      <div class="admin-header-actions">
+        <a href="index.html" target="_blank" class="btn btn-ghost btn-sm">Siteyi Görüntüle ↗</a>
+        <button id="logoutBtn" class="btn btn-ghost btn-sm">Çıkış Yap</button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="profile">Profil</button>
+      <button class="tab-btn" data-tab="links">Linkler</button>
+      <button class="tab-btn" data-tab="portfolio">Portföy</button>
+      <button class="tab-btn" data-tab="settings">Ayarlar</button>
+    </nav>
+
+    <main class="admin-main">
+      <div class="admin-panel">
+
+        <!-- PROFİL -->
+        <section class="tab-panel active" id="tab-profile">
+          <h2>Profil Bilgileri</h2>
+          <form id="profileForm" class="form-grid">
+            <label>Ad Soyad
+              <input type="text" id="f-name" maxlength="60">
+            </label>
+            <label>Unvan / Kısa Açıklama
+              <input type="text" id="f-title" maxlength="80">
+            </label>
+            <label>Biyografi
+              <textarea id="f-bio" rows="3" maxlength="240"></textarea>
+            </label>
+
+            <label>Profil Fotoğrafı — dosya yolu
+              <input type="text" id="f-avatar-path" placeholder="images/avatar.jpg">
+            </label>
+            <label class="file-pick-label">Bilgisayarından seç (dosyayı indirir, sen images/ klasörüne taşırsın)
+              <input type="file" id="f-avatar-file" accept="image/*">
+            </label>
+            <div id="avatarPreviewWrap" class="avatar-preview-wrap" hidden>
+              <img id="avatarPreview" alt="Profil önizleme" class="avatar-preview">
+              <button type="button" id="removeAvatarBtn" class="btn btn-ghost btn-sm">Kaldır</button>
+            </div>
+
+            <label>Vurgu Rengi
+              <input type="color" id="f-accent" value="#7c5cff">
+            </label>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+          </form>
+        </section>
+
+        <!-- LİNKLER -->
+        <section class="tab-panel" id="tab-links">
+          <h2>Sosyal Medya &amp; Linkler</h2>
+          <ul id="linksListAdmin" class="item-list"></ul>
+          <form id="linkForm" class="form-grid form-grid--card">
+            <h3 id="linkFormTitle">Yeni Link Ekle</h3>
+            <input type="hidden" id="l-id">
+            <label>Platform
+              <select id="l-platform"></select>
+            </label>
+            <label>Görünen Başlık
+              <input type="text" id="l-title" maxlength="40" required>
+            </label>
+            <label>URL
+              <input type="url" id="l-url" placeholder="https://" required>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Ekle</button>
+              <button type="button" id="linkCancelEdit" class="btn btn-ghost" hidden>İptal</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- PORTFÖY -->
+        <section class="tab-panel" id="tab-portfolio">
+          <h2>Portföy / Projeler</h2>
+          <ul id="portfolioListAdmin" class="item-list"></ul>
+          <form id="portfolioForm" class="form-grid form-grid--card">
+            <h3 id="portfolioFormTitle">Yeni Proje Ekle</h3>
+            <input type="hidden" id="p-id">
+            <label>Başlık
+              <input type="text" id="p-title" maxlength="60" required>
+            </label>
+            <label>Açıklama
+              <textarea id="p-description" rows="2" maxlength="200"></textarea>
+            </label>
+            <label>Proje Linki
+              <input type="url" id="p-url" placeholder="https://">
+            </label>
+
+            <label>Görsel — dosya yolu
+              <input type="text" id="p-image-path" placeholder="images/proje-adi.jpg">
+            </label>
+            <label class="file-pick-label">Bilgisayarından seç (dosyayı indirir, sen images/ klasörüne taşırsın)
+              <input type="file" id="p-image-file" accept="image/*">
+            </label>
+            <div id="portfolioImagePreviewWrap" class="avatar-preview-wrap" hidden>
+              <img id="portfolioImagePreview" alt="Görsel önizleme" class="portfolio-preview">
+              <button type="button" id="removePortfolioImageBtn" class="btn btn-ghost btn-sm">Kaldır</button>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Ekle</button>
+              <button type="button" id="portfolioCancelEdit" class="btn btn-ghost" hidden>İptal</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- AYARLAR -->
+        <section class="tab-panel" id="tab-settings">
+          <h2>Ayarlar</h2>
+
+          <div class="settings-block">
+            <h3>Görseller Hakkında</h3>
+            <p class="settings-hint">
+              Bu site, girdiğin görselleri veritabanına değil <strong>images/</strong> klasörüne
+              gerçek dosya olarak koyman üzerine kurulu. "Bilgisayarından seç" ile bir resim
+              seçtiğinde dosya, önerilen adla bilgisayarına indirilir. Sen bu indirilen dosyayı
+              proje klasöründeki <code>images/</code> klasörüne taşıyıp GitHub'a öyle yüklemelisin.
+              Yol (path) alanı hemen kaydedilir; ama görsel, dosyayı images/ klasörüne koyup
+              siteyi yayınlayana kadar görünmez.
+            </p>
+          </div>
+
+          <div class="settings-block">
+            <h3>Yedekle / İçe Aktar</h3>
+            <p class="settings-hint">Firestore'daki mevcut veriyi yedeklemek veya bir yedeği geri yüklemek için kullan.</p>
+            <div class="form-actions">
+              <button id="exportJsonBtn" class="btn btn-ghost">Yedek İndir (.json)</button>
+              <label class="btn btn-ghost file-btn">
+                Yedekten Geri Yükle
+                <input type="file" id="importJsonInput" accept="application/json" hidden>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-block">
+            <h3>Şifre Değiştir</h3>
+            <p class="settings-hint">Yeni şifre belirledikten sonra tekrar giriş yapman gerekebilir.</p>
+            <form id="passwordForm" class="form-grid">
+              <label>Yeni Şifre
+                <input type="password" id="newPassword" minlength="6" required>
+              </label>
+              <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
+            </form>
+          </div>
+
+          <div class="settings-block settings-block--danger">
+            <h3>Tümünü Temizle</h3>
+            <p class="settings-hint">Profil, linkler ve portföyü boş bir şablona döndürür. Bu işlem herkese anında yansır.</p>
+            <button id="resetDataBtn" class="btn btn-danger">Boş Şablona Sıfırla</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="js/icons.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
